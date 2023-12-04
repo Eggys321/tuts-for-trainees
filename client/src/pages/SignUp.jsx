@@ -67,8 +67,8 @@ const SignUp = () => {
 
         navigate('/SignIn')
       }
-      if(data.msg === 'all fields are required to register' || data.errors.password === 'password min length must be 8'|| data.errors.email === "Please provide a valid email" || data.errors.email === "Email address already in use"){
-        toast.error(data.msg || data.errors.password || data.errors.email)
+      if(data.msg === 'all fields are required to register' || data.errors.password === 'password min length must be 8'|| data.errors.email === "Please provide a valid email" || data.errors.email === "Email address already in use"|| data.errors.name === "min length for username is 4"){
+        toast.error(data.msg || data.errors.password || data.errors.email || data.errors.name)
       }
    // if(res.token) // localstrogare,setitem(;token, t) navigate 
   //  if(password.length < 6){

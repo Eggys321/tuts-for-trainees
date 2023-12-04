@@ -1,51 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import displayPic from '../assets/my pic.jpg'
-// import { set } from 'mongoose';
+import scrabblePic from '../assets/unsplash_Z2bJeJQRbW0.jpg'
+import { Link, Outlet } from "react-router-dom";
 
 const Home = () => {
-    const [data,setData]= useState([])
-    const [error,setError] = useState(false)
-    const getData = async()=>{
-        try {
-            
-            const fetcher = await fetch('http://localhost:4343/api/all');
-            const res = await fetcher.json();
-            console.log(res.allPosts);
-            setData(res.allPosts)
-        } catch (error) {
-            if(error){
-                setError(error.msg)
-                console.log(error);
-            }
-            
-        }
 
-    }
+    const [user,setUser] = useState(null)
+    const token = localStorage.getItem('token')
 
-    useEffect(()=>{
-        getData()
 
-    },[])
+    let getUser = async () => {
+        let response = await fetch('http://localhost:4343/api/user', {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+    
+        // if (response.status === 401) {
+        //   navigate("/login");
+        //   toast.error(`Something went wrong, Please login again`, {
+        //     position: "top-right",
+        //   });
+        //   return;
+        // }
+    
+        let data = await response.json();
+        setUser(data.name);
+        console.log(data.name);
+      };
+      useEffect(()=>{
+        getUser()
+      },[])
   return (
-    <div className='container my-5'>
-        <h2> data </h2>
-        <div className='row justify-content-between align-items-center gap-5  '>
-{error && error.msg}
-        {data.length < 1 ? <p>no data....</p> :data.map((datum)=>{
-            const {title,_id,description,tags} = datum
-            return(
-                <div key={_id} className='border col-md-5 p-3'>
-                    <img src={displayPic} alt="" className='img-fluid'/>
-                    <h2><span className='text-success fw-bold'>title:</span> {title} </h2>
-                    <h4><span>story:</span> {description} </h4>
-                    <h2> {tags} </h2>
-                    <p>created by: {datum.createdBy.name} </p>
-                </div>
-            )
-        })}
-        </div>
+    <main className='container'>
+      <div className='row justify-content-between align-items-center my-5'>
+        <div className='col-lg-4' >
 
-    </div>
+        <h1> Welcome <span className='fw-bold text-success'>{user}</span> </h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis amet voluptatum maxime quos ipsam voluptatibus minima delectus quae hic distinctio!</p>
+       <div className=' d-flex gap-5'>
+       <Link className='text-decoration-none btn btn-primary'>
+        My stories
+        </Link>
+        <Link to='/CreateStory' className='text-decoration-none btn btn-primary'>
+        Create story
+        </Link>
+       </div>
+        </div>
+        <div className='col-lg-6 '>
+        <img src={scrabblePic} alt="" className='img-fluid' />
+
+        </div>
+      </div>
+    </main>
   )
 }
 

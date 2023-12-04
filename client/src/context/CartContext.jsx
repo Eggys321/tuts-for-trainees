@@ -2,12 +2,14 @@ import { createContext, useState, useEffect } from "react";
 
 import axios from "axios";
 
+// import { useNavigate } from "react-router-dom";
 const CartContext = createContext();
 
 
 export const CartProvider = ({ children }) => {
   const [loggedIn,setLoggedIn] = useState(undefined)
   const token = localStorage.getItem('token')
+  // const navigate = useNavigate()
   
   // let token_obj = JSON.parse(token);
   //console.log(token);
@@ -33,6 +35,9 @@ export const CartProvider = ({ children }) => {
   const logout = ()=>{
     localStorage.removeItem('token')
     setLoggedIn(false)
+    // navigate('/')
+    
+    
   }
 
 

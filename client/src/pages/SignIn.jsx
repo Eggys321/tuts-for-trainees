@@ -32,7 +32,7 @@ const SignIn = () => {
         localStorage.setItem('token', data.token)
         toast.success(data.msg)
         // navigate away
-        navigate('/')
+        navigate('/Home')
         setLoggedIn(true)
       }
       if(data.msg === "all fields are required to login" || data.errors.password === 'Email or password is incorrect'|| data.errors.email === "Not a regitered email"){
